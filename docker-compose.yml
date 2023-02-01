@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  zookeeper:
+    image: zookeeper:3.6.2
+    ports:
+      - 12181:2181
+      - 12888:2888
+      - 13888:3888
+
+  kafka:
+    image: wurstmeister/kafka:2.13-2.6.0
+    ports:
+      - 9092:9092
+      - 19092:19092
+    restart: unless-stopped
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_HOST:PLAINTEXT, LISTENER_DOCKER:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER://kafka:9092, LISTENER_HOST://${HOST_IP}:19092
+      KAFKA_LISTENERS: LISTENER_DOCKER://kafka:9092, LISTENER_HOST://kafka:19092
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:0.3.3
+    ports:
+      - 9010:8080
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
