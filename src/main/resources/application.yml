@@ -1,1 +1,22 @@
+spring:
+  application:
+    name: Levelnine Connector
+  kafka:
+    properties:
+      security:
+        protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+      bootstrap:
+        servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        acks: all
+        spring.json.add.type.headers: false
+    consumer:
+      group-id: some-app-consumer-group
+    message-listener:
+      backoff.period: 3000
+      retry.count: 1
+      concurrency: 1
 
