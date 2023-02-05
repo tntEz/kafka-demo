@@ -55,6 +55,11 @@ public class KafkaDemoApplication {
     public void consume(SomeDto someDto) {
       log.info("Received: {}", someDto);
     }
+
+    @KafkaListener(id="some-app-consumer-group-2", topics = SOME_DTO_TOPIC, containerFactory = "someDtoContainerFactory")
+    public void consume2(SomeDto someDto) {
+      log.info("Received-2: {}", someDto);
+    }
   }
 
   @Component
