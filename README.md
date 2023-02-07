@@ -18,7 +18,7 @@ For local developement it is safer to each time do
 
 Then kafka-ui is running on 
 
-localhost:9010
+http://localhost:9010
 
-The java app is self explanatory spring boot application. 
+The java app is self explanatory, simple spring boot application. 
 
